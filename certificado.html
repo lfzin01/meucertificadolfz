@@ -38,7 +38,6 @@
             --accent-color: #4d5bce;
             --accent-hover: #6a7aea;
             --gradient-primary: linear-gradient(135deg, #4d5bce 0%, #6a7aea 100%);
-            --gradient-secondary: linear-gradient(135deg, #ff6b6b 0%, #ffa36b 100%);
             --transition: all 0.3s ease;
         }
 
@@ -524,6 +523,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 0.5rem;
         }
 
         /* --- Filtros de Certificados --- */
@@ -738,33 +738,6 @@
             box-shadow: 0 8px 20px rgba(77, 91, 206, 0.4);
         }
 
-        /* --- Botão Voltar ao Portfólio --- */
-        .back-to-portfolio {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: var(--text-primary);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            z-index: 1000;
-            transition: var(--transition);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .back-to-portfolio:hover {
-            background: var(--gradient-primary);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(77, 91, 206, 0.4);
-        }
-
         /* --- Animações de entrada --- */
         @keyframes float {
             0% { transform: translateY(0px); }
@@ -811,6 +784,15 @@
                 width: 150px;
                 height: 150px;
             }
+            
+            .certificate-links {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            
+            .certificate-links .btn {
+                width: 100%;
+            }
         }
 
         @media (max-width: 576px) {
@@ -822,7 +804,7 @@
                 grid-template-columns: 1fr;
             }
             
-            .section {
+            section {
                 padding: 4rem 0;
             }
         }
@@ -834,20 +816,18 @@
         <i class="bi bi-chevron-up"></i>
     </a>
 
-    <!-- Botão Voltar ao Portfólio -->
-    <a href="portfolio.html" class="back-to-portfolio" title="Voltar ao Portfólio">
-        <i class="bi bi-arrow-left"></i>
-    </a>
-
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-glass">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#">Luiz Fernando | Certificados</a>
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-award"></i> Luiz Fernando | Certificados
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#inicio">Início</a></li>
                     <li class="nav-item"><a class="nav-link" href="#certificados">Certificados</a></li>
                     <li class="nav-item"><a class="nav-link" href="#estatisticas">Estatísticas</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
@@ -862,7 +842,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="hero-section d-flex align-items-center justify-content-center text-center">
+    <header id="inicio" class="hero-section d-flex align-items-center justify-content-center text-center">
         <div class="hero-content">
             <div class="hero-image-container">
                 <img src="Gemini_Generated_Image_2e01re2e01re2e01.png" alt="Foto de Luiz Fernando" class="foto-perfil floating">
@@ -955,7 +935,7 @@
                 <a href="https://github.com/lfzin01" target="_blank" class="social-link">
                     <i class="bi bi-github"></i>
                 </a>
-                <a href="portfolio.html" class="social-link" title="Voltar ao Portfólio">
+                <a href="https://lfzin01.github.io" target="_blank" class="social-link" title="Portfólio">
                     <i class="bi bi-person-circle"></i>
                 </a>
             </div>
@@ -1021,7 +1001,7 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Base de dados de certificados (extraída dos arquivos PDF)
+        // Base de dados de certificados
         const certificatesData = [
             {
                 id: 1,
@@ -1174,7 +1154,7 @@
                 hours: "2 horas",
                 type: "Cultural",
                 location: "IFNMG Campus Janaúba",
-                description: "Participação em apresentação cultural que destacou talentos artísticos da comunidade acadêmica, promovendo integração e valorização das expressões cultural.",
+                description: "Participação em apresentação cultural que destacou talentos artísticos da comunidade acadêmica, promovendo integração e valorização das expressões culturais.",
                 skills: "Apreciação artística, integração comunitária, valorização da diversidade cultural.",
                 category: "cultural",
                 file: "Certificado Luiz F (14).pdf"
@@ -1557,7 +1537,6 @@
             
             // Armazena o nome do arquivo para download
             document.getElementById('certificateModal').dataset.fileName = cert.file;
-            document.getElementById('certificateModal').dataset.certId = cert.id;
             
             // Abre o modal
             const modal = new bootstrap.Modal(document.getElementById('certificateModal'));
@@ -1568,7 +1547,6 @@
         function downloadCertificate() {
             const modal = document.getElementById('certificateModal');
             const fileName = modal.dataset.fileName;
-            const certId = modal.dataset.certId;
             
             if (!fileName) {
                 alert("Arquivo não encontrado!");
@@ -1584,10 +1562,6 @@
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
-            
-            // Fecha o modal após download
-            const modalInstance = bootstrap.Modal.getInstance(document.getElementById('certificateModal'));
-            modalInstance.hide();
         }
     </script>
 </body>
